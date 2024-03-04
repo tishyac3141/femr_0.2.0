@@ -124,9 +124,9 @@ def flash_attention_wrapper(q, k, v, attention_width):
     attention_args = {"q": q, "k": k, "v": v, "window_size": (attention_width, -1), "causal": True}
 
     if q.is_cuda:
-        attn = flash_attn_interface.FlashAttnFunc.forward(**attention_args)
+        attn = flash_attn_interface.flash_attn_func(**attention_args)
     else:
         # bad, change this?? maybe?
-        attn = flash_attn_interface.FlashAttnFunc.forward(**attention_args)[0]
+        attn = flash_attn_interface.flash_attn_fallback(**attention_args)[0]
 
     return attn
