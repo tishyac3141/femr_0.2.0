@@ -1,3 +1,6 @@
+this is forked from https://github.com/som-shahlab/femr/releases !!
+the purpose of the fork is to try to make it work with flash_attn version 1.0.9, instead of 2.3.6. Most of this code is NOT MINE, I'm just making some small changes
+
 # FEMR
 ### Framework for Electronic Medical Records
 
