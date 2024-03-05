@@ -3,18 +3,15 @@ import math
 import torch
 import torch.nn.functional as F
 from einops import rearrange, repeat
-
-from flash_attn import flash_attn_interface
-
-#from flash_attn import (
- #   flash_attn_func,
-  #  flash_attn_kvpacked_func,
-   # flash_attn_qkvpacked_func,
-    #flash_attn_varlen_func,
-    #flash_attn_varlen_kvpacked_func,
-    #flash_attn_varlen_qkvpacked_func,
-    #flash_attn_with_kvcache,
-#)
+from flash_attn import (
+    flash_attn_func,
+    flash_attn_kvpacked_func,
+    flash_attn_qkvpacked_func,
+    flash_attn_varlen_func,
+    flash_attn_varlen_kvpacked_func,
+    flash_attn_varlen_qkvpacked_func,
+    flash_attn_with_kvcache,
+)
 
 # From https://github.com/Dao-AILab/flash-attention/blob/main/tests/test_flash_attn.py#L183
 
@@ -124,9 +121,8 @@ def flash_attention_wrapper(q, k, v, attention_width):
     attention_args = {"q": q, "k": k, "v": v, "window_size": (attention_width, -1), "causal": True}
 
     if q.is_cuda:
-        attn = flash_attn_interface.flash_attn_func(**attention_args)
+        attn = flash_attn_func(**attention_args)
     else:
-        # bad, change this?? maybe?
-        attn = flash_attn_interface.flash_attn_fallback(**attention_args)[0]
+        attn = flash_attn_fallback(**attention_args)[0]
 
     return attn
